@@ -1,12 +1,13 @@
 /**
  * genera numeri casuali e inserirli in un array x
  * aggiungi numeri in ul#numbers-list x
- * fai partire il countdown
+ * fai partire il countdown x
  * a fine countdown nascondi ul@numbers-list
  */
 
 
 // function : ciclo numeri casuali e array numeri casuali
+
 function generaNumeriCasuali() {
     const numeriCasuali = [];
     for (let i = 0; i < 5; i++) {
@@ -17,7 +18,7 @@ function generaNumeriCasuali() {
   //   console.log(generaNumeriCasuali());
 
 const numeriRandom = generaNumeriCasuali();
-console.log(numeriRandom)
+// console.log(numeriRandom)
 
 // function : inserisco i numeri all'interno della lista
 
@@ -33,13 +34,30 @@ function elementiInseriti(numeriCasuali){
 }
 elementiInseriti(numeriRandom);
 
+// Function : Creo un timer di 30 secondi
 
-// const numeri = [12, 25, 37, 42, 8]; // il tuo array
-// const ul = document.getElementById("lista");
+function startCountdown(seconds) {
+    const countdownElement = document.getElementById("countdown");
+    let timeLeft = seconds;
+    countdownElement.textContent = `${timeLeft} secondi rimanenti`;
 
-// // Ciclo per aggiungere ogni numero come <li>
-// numeri.forEach(function(numero) {
-//   const li = document.createElement("li");
-//   li.textContent = numero;
-//   ul.appendChild(li);
-// });
+    const timer = setInterval(function () {
+      timeLeft--; // Diminuisce il tempo rimasto
+      countdownElement.textContent = `${timeLeft} secondi rimanenti`;
+
+      // Quando il timer finisce
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        countdownElement.textContent = "Tempo scaduto!";
+
+        // Nasconde i numeri dopo 30 secondi
+        document.getElementById("numbers-list").classList.add("d-none");
+        //Nasconde la lista di numeri
+        document.getElementById("answers-form").classList.remove("d-none");
+
+      }
+    }, 1000); // Aggiorna ogni secondo (1000 millisecondi)
+  }
+
+  startCountdown(3);
+
