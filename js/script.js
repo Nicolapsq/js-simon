@@ -2,7 +2,8 @@
  * genera numeri casuali e inserirli in un array x
  * aggiungi numeri in ul#numbers-list x
  * fai partire il countdown x
- * a fine countdown nascondi ul@numbers-list
+ * a fine countdown nascondi ul@numbers-list  e visualizza form x 
+ * indicare quali e quanti numeri sono stati indovinati
  */
 
 
@@ -17,21 +18,22 @@ function generaNumeriCasuali() {
   }
   //   console.log(generaNumeriCasuali());
 
-const numeriRandom = generaNumeriCasuali();
-// console.log(numeriRandom)
-
-// function : inserisco i numeri all'interno della lista
-
-function elementiInseriti(numeriCasuali){
-    const ul = document.getElementById("numbers-list");
-    ul.innerHTML = "";
-
-    for (let i = 0; i < numeriCasuali.length; i++) {
-        const li = document.createElement("li");
-        li.textContent = numeriCasuali[i];
-        ul.appendChild(li);
+  
+  // function : inserisco i numeri all'interno della lista
+  
+  function elementiInseriti(numeriCasuali){
+      const ul = document.getElementById("numbers-list");
+      ul.innerHTML = "";
+      
+      for (let i = 0; i < numeriCasuali.length; i++) {
+          const li = document.createElement("li");
+          li.textContent = numeriCasuali[i];
+          ul.appendChild(li);
+        }
     }
-}
+    
+const numeriRandom = generaNumeriCasuali();
+// console.log(numeriRandom);
 elementiInseriti(numeriRandom);
 
 // Function : Creo un timer di 30 secondi
@@ -52,12 +54,53 @@ function startCountdown(seconds) {
 
         // Nasconde i numeri dopo 30 secondi
         document.getElementById("numbers-list").classList.add("d-none");
-        //Nasconde la lista di numeri
+        // Visualizza la lista di numeri
         document.getElementById("answers-form").classList.remove("d-none");
 
       }
     }, 1000); // Aggiorna ogni secondo (1000 millisecondi)
-  }
+}
 
-  startCountdown(3);
+startCountdown(3);
 
+// Al click del bottone .....
+
+const inputElement = document.querySelectorAll(".form-control");
+const bottone = document.getElementById("btn-conferma");
+// const valoriInseritiUtente = [];
+
+bottone.addEventListener("click", function() {
+    console.log("click");
+     // Raccolgo tutti i valori degli input in un array
+  const valoriInseritiUtente = [];
+  
+  inputElement.forEach(input => {
+    const valore = parseInt(input.value);
+    if (!isNaN(valore)){
+        valoriInseritiUtente.push(valore);
+    }
+    });
+    
+    // Controllo dei duplicati
+    const valoriUnici = new Set(valoriInseritiUtente);
+    
+    if (valoriUnici.size !== valoriInseritiUtente.length) {
+        alert("Inserisci numeri in tutte le caselle e che non siano uguali fra loro");
+        return;
+    }
+    
+});
+// console.log(valoriInseritiUtente); // Aggiungi per debug
+
+
+//Controllo quanti numeri sono stati indovinati
+const numeriIndovinati = valoriInseritiUtente.filter(function(numero){
+    return numeriRandom.includes(numero);
+});
+
+if (numeriIndovinati.length > 0) {
+    alert(`hai indovinato ${numeriIndovinati.length} numeri ${numeriIndovinati.join(", ")}`)
+}
+else {
+    alert("Nonh hai indovinato nessun numero")
+}
